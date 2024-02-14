@@ -8,8 +8,13 @@ canvasTwo.width = window_width;
 canvasTwo.style.background = '#94ef81';
 
 let startTime;
+
 let img = new Image();
-img.src = '../canvas test/pic/icons8-car-48.png';
+img.onload = function() {
+    ctx.drawImage(img, 10, 10, 20, 20);
+};
+img.src = '../canvas-animation-test/pic/icons8-car.png';
+
 let drawSquare = function (x, y, size) {
     ctx.clearRect(0, 0, canvasTwo.width, canvasTwo.height);
 
@@ -26,8 +31,21 @@ let drawSquare = function (x, y, size) {
     ctx.closePath()
     ctx.stroke();
 
-    ctx.drawImage(img, x, y, 20, 20);
+    // ctx.drawImage(img, x, y, 25, 25);
+    ctx.save();
+    ctx.translate(x + 7, y + 7);
+    ctx.rotate(3*Math.PI/2);
+    ctx.drawImage(img, -10, -10, 25, 25);
+    ctx.restore();
 };
+
+function rotateCar(){
+    // ctx.save();
+    // ctx.translate(x + 13, y + 13);
+    // ctx.rotate(Math.PI/2);
+    // ctx.drawImage(img, -10, -10, 25, 25);
+    // ctx.restore();
+}
 
 function animateSquare(timestamp) {
     if (!startTime) startTime = timestamp;
@@ -35,10 +53,11 @@ function animateSquare(timestamp) {
     let newX, newY;
 
     if (elapsedTime < 4000) {
-        newX = 460;
-        newY = 305 - Math.min(elapsedTime / 940) * 50;
 
-    } else if(elapsedTime >= 4000){
+        newX = 460;
+        newY = 305 - Math.min(elapsedTime / 1000) * 54;
+    }
+    if(elapsedTime >= 4000){
         const rotationTime = elapsedTime - 4000;
         const rotationAngle = (rotationTime / 2000) * Math.PI;
         const centerX = 470;
@@ -47,10 +66,16 @@ function animateSquare(timestamp) {
         newX = centerX - Math.cos(rotationAngle) * radius;
         newY = centerY - Math.sin(rotationAngle) * radius;
 
+        if ( elapsedTime >= 4000 )
+        console.log(
+            ctx.drawImage
+        )
     }
     if(elapsedTime >= 6000){
         newX = 480;
         newY = 90 + Math.min((elapsedTime - 6000) / 4000, 1) * 200;
+
+        ctx.drawImage(img, newX, newY, 20, 20)
     }
     if(elapsedTime >= 10000){
         const rotationTime = elapsedTime - 10000;
@@ -63,7 +88,7 @@ function animateSquare(timestamp) {
     }
     if (elapsedTime >=12000){
         newX = 500;
-        newY = 290 - Math.min((elapsedTime - 12000) / 3000, 1) * 210;
+        newY = 290 - Math.min((elapsedTime - 12000) / 3000) * 157;
     }
 
     drawSquare(newX, newY, 10);
