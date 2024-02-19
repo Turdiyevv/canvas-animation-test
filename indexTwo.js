@@ -12,12 +12,10 @@ class Square {
     width,
     height,
     rotate = 0,
-    xPosition = 450,
-    yPosition = 330,
+    xPosition = 485,
+    yPosition = 300,
     imageUrl,
 
-    duration = 0,  //vaqt
-    targetRotate = 0 // aylanish
   }) {
     this.width = width;
     this.height = height;
@@ -27,33 +25,28 @@ class Square {
     this.image = new Image();
     this.image.src = imageUrl;
 
-    this.duration = duration; // test
-    this.targetRotate = targetRotate; // test
-    this.startTime = performance.now(); // test
   }
   drawImage() {
-    ctx.drawImage(this.image, 5, 5, 30, 30);
+    ctx.drawImage(this.image, 0, 0, -30, 30);
   }
 }
+let startTime = 0;
 
 const square = new Square({
-  width: 30, height: 30, imageUrl: '../canvas test/pic/icons8-car.png'
+  width: 20, height: 20, imageUrl: '../canvas-animation-test/pic/output-online.png'
 });
-let startTime = 0;
 
 function movement(shape) {
 
-  shape.rotate += 0.05;
+  shape.rotate += 1;
   // shape.xPosition += 0.3;
-  shape.yPosition -= 0.3;
+  shape.yPosition -= 0.7;
 }
 
 function render(timestamp) {
 
   ctx.fillStyle = "lightsalmon";
   ctx.fillRect(0, 0, window_width, window_height);
-
-    if (startTime === 0) startTime = timestamp;
     const elapsedTime = timestamp - startTime;
 
     ctx.beginPath();
@@ -70,22 +63,24 @@ function render(timestamp) {
     ctx.stroke();
 
     if (elapsedTime < 5000){
-      movement(square);
+      // movement(square);
+    }
+    // if (elapsedTime >= 5000 && elapsedTime < 8000) {
+    //     ctx.save();
+    //     ctx.translate(square.xPosition, square.yPosition);
+    //     ctx.rotate((Math.PI / 180) * (square.rotate + 180 * (elapsedTime - 5000) / 3000));
+    //     square.drawImage();
+    //     ctx.restore();
+    // }
 
-    }
-    if (elapsedTime < 8000 && elapsedTime > 5000){
-      ctx.save();
-      // ctx.fillStyle = "salmon";
-      ctx.translate(square.xPosition, square.yPosition);
-      // ctx.rotate(3*Math.PI/2);
-      ctx.rotate(square.rotate);
-      square.drawImage();
-      ctx.restore();
-    }
       ctx.save();
       ctx.fillStyle = "salmon";
       ctx.translate(square.xPosition, square.yPosition);
-      ctx.rotate(3*Math.PI/2);
+      // ctx.rotate(Math.PI/2);
+      // ctx.rotate(square.rotate);
+
+      // ctx.rotate((Math.PI / 180) * (90 + square.rotate));
+      // ctx.drawImage(square, 0, 0, 25, 25);
       square.drawImage();
       ctx.restore();
 
